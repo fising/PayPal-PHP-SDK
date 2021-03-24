@@ -615,9 +615,10 @@ class Sale extends PayPalResourceModel
      * @param RefundRequest $refundRequest
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
      * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
+     * @param array $handlers
      * @return DetailedRefund
      */
-    public function refundSale($refundRequest, $apiContext = null, $restCall = null)
+    public function refundSale($refundRequest, $apiContext = null, $restCall = null, $handlers = array('PayPal\Handler\RestHandler'))
     {
         ArgumentValidator::validate($this->getId(), "Id");
         ArgumentValidator::validate($refundRequest, 'refundRequest');
@@ -628,7 +629,8 @@ class Sale extends PayPalResourceModel
             $payLoad,
             null,
             $apiContext,
-            $restCall
+            $restCall,
+            $handlers
         );
         $ret = new DetailedRefund();
         $ret->fromJson($json);
